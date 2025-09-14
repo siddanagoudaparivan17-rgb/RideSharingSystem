@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
-// Custom Exception
+// Custom Exception for invalid ride types
 class InvalidRideTypeException extends Exception {
     public InvalidRideTypeException(String message) {
         super(message);
     }
 }
 
-// Abstract Class
+// Abstract base class
 abstract class Ride {
     private String driverName;
     private String vehicleNumber;
@@ -19,7 +19,7 @@ abstract class Ride {
         this.distance = distance;
     }
 
-    // Encapsulation
+    // Encapsulation through getters
     public String getDriverName() {
         return driverName;
     }
@@ -32,57 +32,63 @@ abstract class Ride {
         return distance;
     }
 
-    // Abstract Method
+    // Abstract method for polymorphism
     public abstract double calculateFare();
 }
 
-// Subclass for BikeRide
+// Subclass for Bike rides
 class BikeRide extends Ride {
-    public BikeRide(String driverName, String vehicleNumber, double distance) {
-        super(driverName, vehicleNumber, distance);
+    public BikeRide(String driver, String vehicle, double distance) {
+        super(driver, vehicle, distance);
     }
 
     @Override
     public double calculateFare() {
-        return distance * 10;
+        return getDistance() * 10; // ₹10 per km
     }
 }
 
-// Subclass for CarRide
+// Subclass for Car rides
 class CarRide extends Ride {
-    public CarRide(String driverName, String vehicleNumber, double distance) {
-        super(driverName, vehicleNumber, distance);
+    public CarRide(String driver, String vehicle, double distance) {
+        super(driver, vehicle, distance);
     }
 
     @Override
     public double calculateFare() {
-        return distance * 20;
+        return getDistance() * 20;
     }
 }
 
-// Main Class
-public class RideSharingSystem {
+
+public class RideSharingApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         try {
-            String rideType = sc.nextLine().trim().toLowerCase();
+            System.out.print("Enter ride type (bike/car): ");
+            String type = sc.nextLine().trim().toLowerCase();
+
+            System.out.print("Enter distance (km): ");
             double distance = sc.nextDouble();
 
             if (distance <= 0) {
-                throw new IllegalArgumentException("Distance must be greater than 0");
+                throw new IllegalArgumentException("Distance must be positive.");
             }
 
             Ride ride;
-            if (rideType.equals("bike")) {
-                ride = new BikeRide("Ramesh", "KA01AB1234", distance);
-            } else if (rideType.equals("car")) {
-                ride = new CarRide("Suresh", "KA05XY5678", distance);
+
+        
+            if (type.equals("bike")) {
+                ride = new BikeRide("Ravi Kumar", "KA-19-B1234", distance);
+            } else if (type.equals("car")) {
+                ride = new CarRide("Anita Sharma", "KA-05-C5678", distance);
             } else {
-                throw new InvalidRideTypeException("Invalid ride type: " + rideType);
+                throw new InvalidRideTypeException("Only 'bike' or 'car' rides are allowed.");
             }
 
-            // Output
+       
+            System.out.println("\n--- Ride Details ---");
             System.out.println("Driver: " + ride.getDriverName());
             System.out.println("Vehicle No: " + ride.getVehicleNumber());
             System.out.println("Distance: " + ride.getDistance() + " km");
@@ -91,9 +97,9 @@ public class RideSharingSystem {
         } catch (InvalidRideTypeException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Unexpected Error: " + e.getMessage());
+        } finally {
+            sc.close();
         }
-
-        sc.close();
     }
 }
