@@ -61,7 +61,7 @@ class CarRide extends Ride {
 }
 
 
-public class RideSharingApp {
+public class RideSharingSystem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -103,3 +103,4 @@ public class RideSharingApp {
         }
     }
 }
+
