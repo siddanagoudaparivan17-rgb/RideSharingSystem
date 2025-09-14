@@ -69,7 +69,7 @@ public class RideSharingSystem {
             System.out.print("Enter ride type (bike/car): ");
             String type = sc.nextLine().trim().toLowerCase();
 
-            System.out.print("Enter distance (km): ");
+            System.out.print("\nEnter distance (km): ");
             double distance = sc.nextDouble();
 
             if (distance <= 0) {
@@ -103,4 +103,5 @@ public class RideSharingSystem {
         }
     }
 }
+
 
